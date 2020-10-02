@@ -13,7 +13,7 @@ profiles:
   deploy:
     helm:
       releases:
-        - name: rode
+        - name: cloud-native-go-helloworld-service
           chartPath: charts/cloud-native-go-helloworld-service
           wait: true
           values:
