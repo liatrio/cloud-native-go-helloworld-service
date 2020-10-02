@@ -18,7 +18,8 @@ spec:
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        #image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        image: "{{ .Values.image.repository }}"
       {{- with .Values.livenessProbe }}
         livelinessProbe:
 {{ toYaml . | indent 10 }}
