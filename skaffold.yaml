@@ -13,9 +13,18 @@ profiles:
   deploy:
     helm:
       releases:
-        - name: rode
+        - name: cloud-native-go-helloworld-service
           chartPath: charts/cloud-native-go-helloworld-service
           wait: true
+          setValues:
+            imagePullPolicy: IfNotPresent
           values:
             image: cloud-native-go-helloworld-service
-            tag: latest
+          imageStrategy:
+            helm: {}
+  portForward:
+  - resourceType: service
+    namespace: default
+    resourceName: cloud-native-go-helloworld-service
+    port: 3000
+    localPort: 3000

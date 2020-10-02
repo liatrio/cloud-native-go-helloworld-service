@@ -4,7 +4,6 @@ metadata:
   name: {{ .Chart.Name }}
   labels:
     app: {{ .Chart.Name }}
-    version: {{ .Chart.version }}  
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -14,18 +13,19 @@ spec:
     metadata:
       labels:
         app: {{ .Chart.Name }}
-        version: {{ .Chart.version }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
-        #image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        image: "{{ .Values.image.repository }}"
-      {{- with .Values.livenessProbe }}
-        livelinessProbe:
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default $.Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        {{- with .Values.livenessProbe }}
+        livenessProbe:
 {{ toYaml . | indent 10 }}
-      {{- with .Values.readinessProbe }}
+        {{- end }}
+        {{- with .Values.readinessProbe }}
         readinessProbe:
 {{ toYaml . | indent 10 }}
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
