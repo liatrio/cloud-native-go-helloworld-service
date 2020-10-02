@@ -9,8 +9,8 @@ WORKDIR /app
 RUN go build -o main .
 ##RUN go build .
 
-EXPOSE 8080
+EXPOSE 3000
 
 # Run the executable
-CMD ["./main"]
+CMD ["/app/main"]
 
