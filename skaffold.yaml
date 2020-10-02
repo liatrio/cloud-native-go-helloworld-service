@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2alpha1
+kind: Config
+profiles:
+- name: local
+  activation:
+    - kubeContext: docker-for-desktop
+    - kubeContext: docker-desktop
+  build:
+    artifacts:
+    - image: cloud-native-go-helloworld-service
+    local:
+      useBuildkit: true
+  deploy:
+    helm:
+      releases:
+        - name: rode
+          chartPath: charts/cloud-native-go-helloworld-service
+          wait: true
+          values:
+            image: cloud-native-go-helloworld-service
+            tag: latest
