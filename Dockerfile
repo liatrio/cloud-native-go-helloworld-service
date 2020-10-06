@@ -1,4 +1,4 @@
-FROM golang:1.12.0-alpine3.9
+FROM golang:1.15.2-alpine
 
 RUN mkdir /app
 
@@ -7,7 +7,6 @@ ADD . /app
 WORKDIR /app
 
 RUN go build -o main .
-##RUN go build .
 
 EXPOSE 3000
 
