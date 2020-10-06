@@ -15,6 +15,7 @@ livenessProbe:
     port: 3000
   initialDelaySeconds: 30
   periodSeconds: 5
+
 readinessProbe:
   httpGet:
     path: /
@@ -23,8 +24,14 @@ readinessProbe:
   periodSeconds: 5
 
 service:
-  type: ClusterIP
-  port: 3000
+    annotations: {}
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    type: NodePort
+    name: http
+    port: 3000
+    nodePort: 30000
 
 hpa:
   enabled: false
