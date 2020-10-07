@@ -1,0 +1,14 @@
+Dockerfile
+skaffold.yml
+skaffold.yaml
+Jenkinsfile
+charts
+charts/**/*
+.git
+.git/**/*
+.dockerignore
+.gitignore
+.*.swp
+**/.*.swp
+.cache
+.cache/*
