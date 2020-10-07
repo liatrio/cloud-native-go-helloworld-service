@@ -20,6 +20,10 @@ pipeline {
       agent {
         label "lead-toolchain-skaffold"
       }
+      when {
+	beforeAgent true
+	branch 'master'
+      }
       environment {
         NAMESPACE = "${env.stagingNamespace}"
         DOMAIN    = "${env.stagingDomain}"
