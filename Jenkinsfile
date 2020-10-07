@@ -23,6 +23,7 @@ pipeline {
       when {
         beforeAgent true
         //branch 'master'
+	sh "echo 'testing'"
       }
       environment {
         NAMESPACE = "${env.stagingNamespace}"
