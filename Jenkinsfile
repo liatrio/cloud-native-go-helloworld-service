@@ -22,7 +22,7 @@ pipeline {
       }
       when {
         beforeAgent true
-        branch 'master'
+        //branch 'master'
       }
       environment {
         NAMESPACE = "${env.stagingNamespace}"
