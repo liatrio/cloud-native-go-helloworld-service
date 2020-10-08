@@ -1,0 +1,15 @@
+schemaVersion: "2.0.0"
+
+commandTests:
+  - name: "go exists"
+    command: "go"
+    args: ["version"]
+    expectedOutput: ["go version go1.15.2 linux/amd64"]
+fileExistenceTests:
+  - name: 'main'
+    path: '/'
+    shouldExist: true
+metadataTest:
+  exposedPorts: ["3000"]
+  workdir: "/app"
+  cmd: ["/app/main"]

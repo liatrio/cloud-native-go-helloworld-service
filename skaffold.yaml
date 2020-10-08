@@ -1,0 +1,34 @@
+apiVersion: skaffold/v2alpha1
+kind: Config
+profiles:
+- name: local
+  activation:
+    - kubeContext: docker-for-desktop
+    - kubeContext: docker-desktop
+  build:
+    artifacts:
+    - image: cloud-native-go-helloworld-service
+    local:
+      useBuildkit: true
+  test:
+  - image: cloud-native-go-helloworld-service
+    structureTests:
+      - './image-test/*'
+  deploy:
+    helm:
+      releases:
+        - name: cloud-native-go-helloworld-service
+          chartPath: charts/cloud-native-go-helloworld-service
+          wait: true
+          setValues:
+            imagePullPolicy: IfNotPresent
+          values:
+            image: cloud-native-go-helloworld-service
+          imageStrategy:
+            helm: {}
+  portForward:
+  - resourceType: service
+    namespace: default
+    resourceName: cloud-native-go-helloworld-service
+    port: 3000
+    localPort: 3000
