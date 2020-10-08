@@ -19,16 +19,15 @@ pipeline {
           sh "rm image.json"
         }
       }
-    }
     post {	
         success {	
           notifyStageEnd()	
         }	
         failure {	
           notifyStageEnd([result: "fail"])	
-        }	
+        }
       }	
-    }
+    }	
     stage('Deploy to Staging') {
       agent {
         label "lead-toolchain-skaffold"
