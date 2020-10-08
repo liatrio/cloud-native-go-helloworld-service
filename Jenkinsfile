@@ -93,7 +93,8 @@ pipeline {
         }
         stageMessage "Successfully deployed to production: `gratibot.${env.productionDomain}`"
       }
-    }		
+    }
+  } 		
   post {	
     success {	
       echo "Pipeline Success"	
@@ -103,6 +104,5 @@ pipeline {
       echo "Pipeline Fail"	
       notifyPipelineEnd([result: "fail"])	
       }	    
-    }
   }
 }
