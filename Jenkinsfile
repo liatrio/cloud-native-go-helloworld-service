@@ -1,7 +1,9 @@
+library 'LEAD'
 pipeline {
   agent none
   environment {
     SLACK_CHANNEL="cloud-native-demo"
+    SLACK_URL = "https://liatrio.slack.com/services/hooks/jenkins-ci/"
   }
   stages {
     stage('Build') {
@@ -9,6 +11,8 @@ pipeline {
         label "lead-toolchain-skaffold"
       }
       steps {
+        notifyPipelineStart()	
+        notifyStageStart()
         container('skaffold') {
           sh "skaffold build --file-output=image.json"
           stash includes: 'image.json', name: 'build'
@@ -16,24 +20,42 @@ pipeline {
         }
       }
     }
+    post {	
+        success {	
+          notifyStageEnd()	
+        }	
+        failure {	
+          notifyStageEnd([result: "fail"])	
+        }	
+      }	
+    }
     stage('Deploy to Staging') {
       agent {
         label "lead-toolchain-skaffold"
       }
       when {
-	beforeAgent true
-	branch 'master'
+	      beforeAgent true
+	      branch 'master'
       }
       environment {
         NAMESPACE = "${env.stagingNamespace}"
         DOMAIN    = "${env.stagingDomain}"
       }
       steps {
+        notifyStageStart()
         container('skaffold') {
           unstash 'build'
           sh "skaffold deploy -a image.json -n ${NAMESPACE}"
         }
         stageMessage "Successfully deployed to staging: `gratibot.${env.stagingDomain}`"
+      }
+      post {	
+        success {	
+          notifyStageEnd([status: "Successfully deployed to staging:\ngratibot.${env.stagingDomain}"])	
+        }	
+        failure {	
+          notifyStageEnd([result: "fail"])	
+        }	
       }
     }
     stage ('Manual Ready Check') {
@@ -65,6 +87,7 @@ pipeline {
         DOMAIN    = "${env.productionDomain}"
       }
       steps {
+        notifyStageStart()
         container('skaffold') {
           unstash 'build'
           sh "skaffold deploy -a image.json -n ${NAMESPACE}"
@@ -73,15 +96,24 @@ pipeline {
       }
     }
   }
-  post {
-    failure {
-      slackSend channel: "#${env.SLACK_CHANNEL}",  color: "danger", message: "Build failed: ${env.JOB_NAME} on build #${env.BUILD_NUMBER} (<${env.BUILD_URL}|go there>)"
-    }
-    fixed {
-      slackSend channel: "#${env.SLACK_CHANNEL}", color: "good",  message: "Build recovered: ${env.JOB_NAME} on #${env.BUILD_NUMBER}"
-    }
-    success {
-      slackSend channel: "#${env.SLACK_CHANNEL}", color: "good",  message: "Build was successfully deployed: ${env.JOB_NAME} on #${env.BUILD_NUMBER} (<${env.BUILD_URL}|go there>)"
-    }
+  post {	
+        success {	
+          notifyStageEnd([status: "Successfully deployed to production:\ngratibot.${env.productionNamespace}/"])	
+        }	
+        failure {	
+          notifyStageEnd([result: "fail"])	
+        }	
+      }	
+    }	
+  }	
+  post {	
+    success {	
+      echo "Pipeline Success"	
+      notifyPipelineEnd()	
+    }	
+    failure {	
+      echo "Pipeline Fail"	
+      notifyPipelineEnd([result: "fail"])	
+    }	    }
   }
 }
