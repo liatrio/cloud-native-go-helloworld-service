@@ -95,7 +95,6 @@ pipeline {
         stageMessage "Successfully deployed to production: `gratibot.${env.productionDomain}`"
       }
     }
-  }
   post {	
         success {	
           notifyStageEnd([status: "Successfully deployed to production:\ngratibot.${env.productionNamespace}/"])	
@@ -103,9 +102,7 @@ pipeline {
         failure {	
           notifyStageEnd([result: "fail"])	
         }	
-      }	
-    }	
-  }	
+  }			
   post {	
     success {	
       echo "Pipeline Success"	
@@ -114,6 +111,6 @@ pipeline {
     failure {	
       echo "Pipeline Fail"	
       notifyPipelineEnd([result: "fail"])	
-    }	    }
+    }	    
   }
 }
