@@ -25,8 +25,8 @@ pipeline {
         branch 'main'
       }
       environment {
-        NAMESPACE = "${env.stagingNamespace}"
-        DOMAIN    = "${env.stagingDomain}"
+        ISTIO_DOMAIN  = "${env.stagingDomain}"
+        PRODUCT_NAME  = "${env.product}"
       }
       steps {
         container('skaffold') {
@@ -61,8 +61,8 @@ pipeline {
         label "lead-toolchain-skaffold"
       }
       environment {
-        NAMESPACE = "${env.productionNamespace}"
-        DOMAIN    = "${env.productionDomain}"
+        ISTIO_DOMAIN = "${env.productionDomain}"
+        PRODUCT_NAME = "${env.product}"
       }
       steps {
         container('skaffold') {
