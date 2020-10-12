@@ -26,9 +26,7 @@ readinessProbe:
 service:
     annotations: {}
     externalIPs: []
-    loadBalancerIP: ""
-    loadBalancerSourceRanges: []
-    type: NodePort
+    type: ClusterIP
     name: http
     port: 3000
     nodePort: 30000

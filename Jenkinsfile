@@ -21,8 +21,8 @@ pipeline {
         label "lead-toolchain-skaffold"
       }
       when {
-	beforeAgent true
-	branch 'master'
+        beforeAgent true
+        branch 'main'
       }
       environment {
         NAMESPACE = "${env.stagingNamespace}"
@@ -40,7 +40,7 @@ pipeline {
       agent none
       when {
         beforeInput true
-        branch 'master'
+        branch 'main'
       }
       options {
         timeout(time: 30, unit: 'MINUTES')
@@ -55,7 +55,7 @@ pipeline {
     stage('Deploy to Production') {
       when {
         beforeAgent true
-        branch 'master'
+        branch 'main'
       }
       agent {
         label "lead-toolchain-skaffold"
@@ -71,17 +71,6 @@ pipeline {
         }
         stageMessage "Successfully deployed to production: `gratibot.${env.productionDomain}`"
       }
-    }
-  }
-  post {
-    failure {
-      slackSend channel: "#${env.SLACK_CHANNEL}",  color: "danger", message: "Build failed: ${env.JOB_NAME} on build #${env.BUILD_NUMBER} (<${env.BUILD_URL}|go there>)"
-    }
-    fixed {
-      slackSend channel: "#${env.SLACK_CHANNEL}", color: "good",  message: "Build recovered: ${env.JOB_NAME} on #${env.BUILD_NUMBER}"
-    }
-    success {
-      slackSend channel: "#${env.SLACK_CHANNEL}", color: "good",  message: "Build was successfully deployed: ${env.JOB_NAME} on #${env.BUILD_NUMBER} (<${env.BUILD_URL}|go there>)"
     }
   }
 }
