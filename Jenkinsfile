@@ -34,7 +34,7 @@ pipeline {
       }
       when {
 	      beforeAgent true
-	      branch 'master'
+	      branch 'main'
       }
       environment {
         NAMESPACE = "${env.stagingNamespace}"
@@ -61,7 +61,7 @@ pipeline {
       agent none
       when {
         beforeInput true
-        branch 'master'
+        branch 'main'
       }
       options {
         timeout(time: 30, unit: 'MINUTES')
@@ -76,7 +76,7 @@ pipeline {
     stage('Deploy to Production') {
       when {
         beforeAgent true
-        branch 'master'
+        branch 'main'
       }
       agent {
         label "lead-toolchain-skaffold"
