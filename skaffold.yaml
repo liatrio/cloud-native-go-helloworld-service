@@ -3,10 +3,6 @@ kind: Config
 build:
     artifacts:
     - image: cloud-native-go-helloworld-service
-test:
-  - image: cloud-native-go-helloworld-service
-    structureTests:
-      - './image-test/*'
 deploy:
     helm:
       releases:
@@ -29,3 +25,7 @@ profiles:
     - image: cloud-native-go-helloworld-service
     local:
       useBuildkit: true
+  test:
+  - image: cloud-native-go-helloworld-service
+    structureTests:
+      - './image-test/*'
