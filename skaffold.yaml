@@ -13,6 +13,9 @@ deploy:
             imagePullPolicy: IfNotPresent
           values:
             image: cloud-native-go-helloworld-service
+          setValueTemplates:
+            istioDomain: "{{.ISTIO_DOMAIN}}"
+            productName: "{{.PRODUCT_NAME}}"
           imageStrategy:
             helm: {}
 profiles:
