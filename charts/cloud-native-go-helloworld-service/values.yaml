@@ -3,7 +3,6 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
-
 image: 
   repository: cloud-native-go-helloworld-service
   tag: ""
@@ -52,3 +51,5 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+istioDomain: ""
