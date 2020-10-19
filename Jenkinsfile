@@ -35,7 +35,7 @@ pipeline {
           unstash 'build'
           sh "skaffold deploy -a image.json -n ${NAMESPACE}"
         }
-        stageMessage "Successfully deployed to staging: `gratibot.${env.stagingDomain}`"
+        stageMessage "Successfully deployed to staging: `cloud-native-go-helloworld-service.${env.stagingDomain}`"
       }
     }
     stage ('Manual Ready Check') {
@@ -72,7 +72,7 @@ pipeline {
           unstash 'build'
           sh "skaffold deploy -a image.json -n ${NAMESPACE}"
         }
-        stageMessage "Successfully deployed to production: `gratibot.${env.productionDomain}`"
+        stageMessage "Successfully deployed to production: `cloud-native-go-helloworld-service.${env.productionDomain}`"
       }
     }
   }
