@@ -29,3 +29,17 @@ profiles:
   - image: cloud-native-go-helloworld-service
     structureTests:
       - './image-test/*'
+  deploy:
+    helm:
+      releases:
+        - name: cloud-native-go-helloworld-service
+          chartPath: charts/cloud-native-go-helloworld-service
+          wait: true
+          setValues:
+            imagePullPolicy: IfNotPresent
+          values:
+            image: cloud-native-go-helloworld-service
+          setValueTemplates:
+            service.type: "NodePort"
+          imageStrategy:
+            helm: {}
